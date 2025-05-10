@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Añadir Libro</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="/stylesheets/agregar.css">
+    <link rel="shortcut icon" href="/images/icono.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="add-book-container">
+    <% if (messages.success && messages.success.length) { %>
+        <div class="alert alert-success alert-dismissible fade show custom-alert" role="alert">
+            <div class="alert-content">
+                <i class="fas fa-check-circle"></i>
+                <%= messages.success[0] %>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+    <% if (messages.error && messages.error.length) { %>
+        <div class="alert alert-danger alert-dismissible fade show custom-alert" role="alert">
+            <div class="alert-content">
+                <i class="fas fa-exclamation-circle"></i>
+                <%= messages.error[0] %>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+
+    <div class="add-book-card mx-auto" style="max-width: 800px; box-shadow: 0 4px 24px rgba(0,0,0,0.10); padding: 2rem 2rem 1.5rem 2rem; border-radius: 16px;">
+        <div class="add-book-header text-center" style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.2rem;">
+            <i class="fas fa-plus-circle me-2"></i> Añadir Nuevo Libro
+        </div>
+        <div class="add-book-body p-0">
+            <form action="/books/add" method="post" enctype="multipart/form-data">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="form-group mb-2">
+                            <label for="title" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="title" name="title" value="<%= title %>" required autocomplete="off" placeholder="Ej: Cien años de soledad">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="author" class="form-label">Autor</label>
+                            <input type="text" class="form-control" id="author" name="author" value="<%= author %>" required autocomplete="off" placeholder="Ej: Gabriel García Márquez">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-2">
+                            <label for="publisher" class="form-label">Editorial</label>
+                            <input type="text" class="form-control" id="publisher" name="publisher" value="<%= publisher %>" required autocomplete="off" placeholder="Ej: Editorial Sudamericana">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="year" class="form-label">Año</label>
+                            <input type="number" class="form-control" id="year" name="year" value="<%= year %>" required min="1000" max="<%= new Date().getFullYear() %>" placeholder="Ej: 1967">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-3 mt-2">
+                    <label for="image" class="form-label">Portada del Libro</label>
+                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                    <small class="form-text text-muted">Formatos: JPG, JPEG, PNG, GIF. Máx: 5MB</small>
+                </div>
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <a href="/books" class="back-button">
+                        <i class="fas fa-arrow-circle-left me-2"></i> Volver
+                    </a>
+                    <button type="submit" class="add-button">
+                        <i class="fas fa-plus-square me-2"></i> Añadir a la Biblioteca
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5.3 Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

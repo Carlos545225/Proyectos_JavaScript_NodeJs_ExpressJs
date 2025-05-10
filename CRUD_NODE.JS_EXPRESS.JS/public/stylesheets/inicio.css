@@ -1,0 +1,85 @@
+body {
+font-family: 'Spectral', serif;
+background: linear-gradient(135deg, #f0f2f0 0%, #e0e5e0 100%);
+color: #333;
+line-height: 1.7;
+}
+.main-header {
+background-color: #7b68ee;
+color: #fff;
+padding: 2.5rem 0;
+border-radius: 12px;
+margin-bottom: 3rem;
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+position: relative;
+overflow: hidden;
+}
+.main-header::before {
+content: '';
+position: absolute;
+top: -50%;
+left: -50%;
+width: 200%;
+height: 200%;
+background: linear-gradient(transparent, rgba(255, 255, 255, 0.3), transparent);
+transform: rotate(-45deg);
+transition: all 0.4s ease-in-out;
+}
+.main-header:hover::before {
+transform: translate(50%, 50%) rotate(-45deg);
+}
+.main-header h1 {
+font-size: 3.5rem;
+font-weight: 700;
+text-align: center;
+letter-spacing: -1px;
+text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.welcome-card {
+background-color: #fff;
+border-radius: 10px;
+padding: 2.5rem;
+box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+margin-bottom: 2.5rem;
+text-align: center;
+}
+.welcome-card p {
+font-size: 1.2rem;
+color: #555;
+margin-bottom: 2rem;
+}
+.library-button {
+background-color: #38c172;
+color: #fff;
+border: none;
+padding: 1rem 2.5rem;
+border-radius: 8px;
+text-decoration: none;
+font-weight: 600;
+font-size: 1.2rem;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+transition: all 0.3s ease;
+display: inline-block;
+}
+.library-button:hover {
+background-color: #2e9e5d;
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+color: #fff;
+text-decoration: none;
+transform: translateY(-2px);
+}
+.credits {
+text-align: center;
+margin-top: 3rem;
+color: #777;
+font-size: 0.9rem;
+}
+.credits a {
+color: #6cb2eb;
+text-decoration: none;
+transition: color 0.2s ease;
+}
+.credits a:hover {
+color: #5695d3;
+text-decoration: underline;
+}

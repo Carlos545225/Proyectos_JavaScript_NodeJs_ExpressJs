@@ -1,0 +1,109 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('crud:server'); // Asegúrate que el namespace 'crud:server' es el que usas
+var http = require('http');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '5000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+function onListening() {
+  const addr = server.address();
+  let hostForDisplay;
+
+  if (typeof addr === 'string') {
+    // Es un pipe
+    hostForDisplay = 'pipe ' + addr;
+    console.log('Listening on ' + hostForDisplay);
+    debug('Listening on ' + hostForDisplay);
+  } else {
+    // Es un puerto TCP/IP
+    const port = addr.port;
+    let host = addr.address;
+
+    // Si la dirección es '0.0.0.0' o '::' (escuchando en todas las interfaces),
+    // es más amigable mostrar 'localhost' para el acceso local.
+    if (host === '0.0.0.0' || host === '::') {
+      host = 'localhost';
+    }
+
+    hostForDisplay = 'http://' + host + ':' + port;
+    console.log('Server is listening on ' + hostForDisplay);
+    // Opcional: un mensaje más directo para copiar y pegar
+    // console.log('Access it at: ' + hostForDisplay);
+    debug('Listening on ' + hostForDisplay); // Mantenemos el debug original si se usa
+  }
+}
