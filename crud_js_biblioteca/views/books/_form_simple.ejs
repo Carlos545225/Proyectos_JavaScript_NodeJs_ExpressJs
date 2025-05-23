@@ -1,0 +1,19 @@
+<% if (typeof errors !== 'undefined' && errors && errors.length > 0) { %>
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            <% errors.forEach(function(error) { %>
+                <li><%= error %></li>
+            <% }); %>
+        </ul>
+    </div>
+<% } %>
+<form action="<%= action %>" method="<%= typeof method !== 'undefined' ? method : 'POST' %>">
+    <div class="mb-3">
+        <label for="name" class="form-label"><%= label %></label>
+        <input type="text" class="form-control" id="name" name="name" value="<%= value || '' %>" placeholder="Ingrese el <%= label.toLowerCase() %>" required>
+    </div>
+    <div class="text-end">
+        <button type="submit" class="btn <%= btnClass %>"><i class="bi <%= icon %> me-2"></i><%= btnText %></button>
+        <a href="<%= cancelHref %>" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form> 

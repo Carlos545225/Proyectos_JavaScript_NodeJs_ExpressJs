@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Libro - El Rincón Verde</title>
+    <link rel="shortcut icon" href="/images/icono.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/stylesheets/stilo_universal.css">
+    <link rel="stylesheet" href="/stylesheets/libros.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-verde-oscuro sidebar-wrapper" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center py-4 fs-4 fw-bold text-white">
+                <i class="bi bi-tree-fill me-2"></i>El Rincón Verde
+            </div>
+            <div class="list-group list-group-flush my-3">
+                <a href="/dashboard" class="list-group-item list-group-item-action">
+                    <i class="bi bi-speedometer2 me-2"></i>Panel Principal
+                </a>
+                <a href="/books" class="list-group-item list-group-item-action active">
+                    <i class="bi bi-journals me-2"></i>Libros
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="bi bi-journal-check me-2"></i>Préstamos
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="bi bi-person-circle me-2"></i>Mi Cuenta
+                </a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content Wrapper -->
+        <div id="page-content-wrapper">
+            <!-- Barra de Navegación Superior -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                            <li class="nav-item"> <a class="nav-link" href="/logout">Salir <i class="bi bi-box-arrow-right"></i></a> </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Contenido Principal del CRUD -->
+            <div class="container-fluid dashboard-container px-4 py-4">
+                <!-- Contenido de los Tabs -->
+                <div class="tab-content" id="crudTabsContent">
+                    <!-- Pestaña Libros (Formulario) -->
+                    <div class="tab-pane fade show active p-3 bg-white border border-top-0 rounded-bottom shadow-sm" id="libros-tab-pane" role="tabpanel" aria-labelledby="libros-tab" tabindex="0">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h3 class="text-verde-oscuro mb-0">Editar Libro</h3>
+                            <a href="/books" class="btn btn-secondary"><i class="bi bi-arrow-left me-2"></i>Volver</a>
+                        </div>
+                        <form action="/books/update/<%= book.id %>" method="POST" enctype="multipart/form-data">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="title" class="form-label">Título</label>
+                                    <input type="text" class="form-control" id="title" name="title" value="<%= book.title || '' %>" placeholder="Ingrese el título del libro" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="author_id" class="form-label">Autor</label>
+                                    <select class="form-control" id="author_id" name="author_id" required>
+                                        <option value="">Seleccione un autor</option>
+                                        <% authors.forEach(function(author) { %>
+                                            <option value="<%= author.id %>" <%= book.author_id == author.id ? 'selected' : '' %>><%= author.name %></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="category_id" class="form-label">Categoría</label>
+                                    <select class="form-control" id="category_id" name="category_id" required>
+                                        <option value="">Seleccione una categoría</option>
+                                        <% categories.forEach(function(category) { %>
+                                            <option value="<%= category.id %>" <%= book.category_id == category.id ? 'selected' : '' %>><%= category.name %></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="publisher_id" class="form-label">Editorial</label>
+                                    <select class="form-control" id="publisher_id" name="publisher_id" required>
+                                        <option value="">Seleccione una editorial</option>
+                                        <% publishers.forEach(function(publisher) { %>
+                                            <option value="<%= publisher.id %>" <%= book.publisher_id == publisher.id ? 'selected' : '' %>><%= publisher.name %></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="year" class="form-label">Año</label>
+                                    <input type="number" class="form-control" id="year" name="year" min="1000" max="2999" value="<%= book.year || '' %>" placeholder="Ingrese el año de publicación" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="num_ejemplares" class="form-label">Número de Ejemplares</label>
+                                    <input type="number" class="form-control" id="num_ejemplares" name="num_ejemplares" min="1" value="<%= book.num_ejemplares || '1' %>" placeholder="Ingrese el número de ejemplares" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="isbn" class="form-label">ISBN</label>
+                                    <input type="text" class="form-control" id="isbn" name="isbn" value="<%= book.isbn || '' %>" placeholder="Ingrese el ISBN (opcional)" pattern="[0-9-]{10,13}" maxlength="13">
+                                    <small class="form-text text-muted">Formato: 10-13 dígitos con guiones (opcional)</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="image" class="form-label">Imagen (opcional)</label>
+                                    <% if (book.image_url) { %>
+                                        <div class="mb-2">
+                                            <img src="<%= book.image_url %>" alt="Portada actual" class="img-thumbnail" style="max-width: 120px;">
+                                            <input type="hidden" name="current_image" value="<%= book.image_url %>">
+                                        </div>
+                                    <% } %>
+                                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                                </div>
+                            </div>
+                            <div class="mt-4 text-end">
+                                <button type="submit" class="btn btn-primary"><i class="bi bi-save me-2"></i>Guardar Cambios</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Pestaña Autores (vacía) -->
+                    <div class="tab-pane fade p-3 bg-white border border-top-0 rounded-bottom shadow-sm" id="autores-tab-pane" role="tabpanel" aria-labelledby="autores-tab" tabindex="0">
+                        <!-- Vacío -->
+                    </div>
+
+                    <!-- Pestaña Categorías (vacía) -->
+                    <div class="tab-pane fade p-3 bg-white border border-top-0 rounded-bottom shadow-sm" id="categorias-tab-pane" role="tabpanel" aria-labelledby="categorias-tab" tabindex="0">
+                        <!-- Vacío -->
+                    </div>
+
+                    <!-- Pestaña Editoriales (vacía) -->
+                    <div class="tab-pane fade p-3 bg-white border border-top-0 rounded-bottom shadow-sm" id="editoriales-tab-pane" role="tabpanel" aria-labelledby="editoriales-tab" tabindex="0">
+                        <!-- Vacío -->
+                    </div>
+                </div>
+                <!-- /Contenido de los Tabs -->
+
+                 <!-- Pie de Página del Contenido -->
+                <footer class="pt-4 my-md-5 pt-md-5 border-top">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <small class="d-block mb-3 text-muted">© 2024 Biblioteca El Rincón Verde.</small>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+            <!-- /#page-content-wrapper -->
+        </div>
+    </div>
+    <!-- /#wrapper -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

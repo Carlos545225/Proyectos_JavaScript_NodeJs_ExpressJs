@@ -1,0 +1,180 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <% if (typeof addAction !== 'undefined' && addAction) { %>
+            <% if (tab === 'libros') { %>
+                <a href="/books/historial" class="btn btn-leaf-outline btn-sm rounded-pill d-inline-flex align-items-center me-2">
+                    <i class="bi bi-clock-history me-2"></i>Ver Historial
+                </a>
+            <% } else if (tab === 'autores') { %>
+                <a href="/books/authors/historial" class="btn btn-leaf-outline btn-sm rounded-pill d-inline-flex align-items-center me-2">
+                    <i class="bi bi-clock-history me-2"></i>Ver Historial
+                </a>
+            <% } else if (tab === 'categorias') { %>
+                <a href="/books/category/historial" class="btn btn-leaf-outline btn-sm rounded-pill d-inline-flex align-items-center me-2">
+                    <i class="bi bi-clock-history me-2"></i>Ver Historial
+                </a>
+            <% } else if (tab === 'editoriales') { %>
+                <a href="/books/publishers/historial" class="btn btn-leaf-outline btn-sm rounded-pill d-inline-flex align-items-center me-2">
+                    <i class="bi bi-clock-history me-2"></i>Ver Historial
+                </a>
+            <% } %>
+            <a href="<%= addAction.href %>" class="btn btn-leaf btn-sm rounded-pill d-inline-flex align-items-center">
+                <i class="bi bi-plus-circle-fill me-2"></i><%= addAction.label %>
+            </a>
+        <% } %>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered small">
+        <thead class="table-verde-medio text-white">
+            <tr>
+                <% columns.forEach(function(col) { %>
+                    <th class="align-middle <%= col.key === 'id' ? 'd-none d-md-table-cell' : '' %> 
+                        <%= col.key === 'year' ? 'd-none d-lg-table-cell' : '' %>
+                        <%= col.key === 'num_ejemplares' ? 'd-none d-lg-table-cell' : '' %>
+                        <%= col.key === 'isbn' ? 'd-none d-xl-table-cell' : '' %>">
+                        <%= col.label %>
+                    </th>
+                <% }); %>
+                <th class="align-middle">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (data && data.length > 0) { %>
+                <% data.forEach(function(row) { %>
+                    <tr>
+                        <% columns.forEach(function(col) { %>
+                            <td class="align-middle text-truncate <%= col.key === 'id' ? 'd-none d-md-table-cell' : '' %>
+                                <%= col.key === 'year' ? 'd-none d-lg-table-cell' : '' %>
+                                <%= col.key === 'num_ejemplares' ? 'd-none d-lg-table-cell' : '' %>
+                                <%= col.key === 'isbn' ? 'd-none d-xl-table-cell' : '' %>"
+                                style="max-width: <%= col.key === 'title' ? '300px' : '150px' %>;"
+                                title="<%= row[col.key] %>">
+                                <% if (row[col.key] && row[col.key].length > 15) { %>
+                                    <%= row[col.key].substring(0, 15) %>...
+                                <% } else { %>
+                                    <%= row[col.key] %>
+                                <% } %>
+                            </td>
+                        <% }); %>
+                        <td class="align-middle">
+                            <div class="d-flex flex-wrap gap-1">
+                                <% actions.forEach(function(action) { %>
+                                    <a href="<%= action.href(row) %>" 
+                                       class="btn <%= action.class %> btn-sm rounded-pill d-inline-flex align-items-center" 
+                                       title="<%= action.title %>"
+                                       <% if(action.data) { 
+                                           Object.entries(action.data).forEach(([key, value]) => { %>
+                                               data-<%= key %>="<%= value(row) %>"
+                                       <% }); } %>>
+                                        <i class="bi <%= action.icon %>"></i>
+                                    </a>
+                                <% }); %>
+                            </div>
+                        </td>
+                    </tr>
+                <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan="<%= columns.length + 1 %>" class="text-center"><%= emptyMessage %></td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<!-- Información adicional para móviles -->
+<% if (tab === 'libros' && data && data.length > 0) { %>
+    <div class="d-md-none">
+        <% data.forEach(function(row) { %>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title text-truncate" style="max-width: 100%;" title="<%= row.title %>">
+                        <% if (row.title && row.title.length > 15) { %>
+                            <%= row.title.substring(0, 15) %>...
+                        <% } else { %>
+                            <%= row.title %>
+                        <% } %>
+                    </h5>
+                    <p class="card-text mb-1">
+                        <small class="text-muted">Autor:</small> 
+                        <span title="<%= row.author %>">
+                            <% if (row.author && row.author.length > 15) { %>
+                                <%= row.author.substring(0, 15) %>...
+                            <% } else { %>
+                                <%= row.author %>
+                            <% } %>
+                        </span>
+                    </p>
+                    <p class="card-text mb-1">
+                        <small class="text-muted">Categoría:</small> 
+                        <span title="<%= row.category %>">
+                            <% if (row.category && row.category.length > 15) { %>
+                                <%= row.category.substring(0, 15) %>...
+                            <% } else { %>
+                                <%= row.category %>
+                            <% } %>
+                        </span>
+                    </p>
+                    <p class="card-text mb-1">
+                        <small class="text-muted">Editorial:</small> 
+                        <span title="<%= row.publisher %>">
+                            <% if (row.publisher && row.publisher.length > 15) { %>
+                                <%= row.publisher.substring(0, 15) %>...
+                            <% } else { %>
+                                <%= row.publisher %>
+                            <% } %>
+                        </span>
+                    </p>
+                    <div class="d-flex flex-wrap gap-1 mt-2">
+                        <% actions.forEach(function(action) { %>
+                            <a href="<%= action.href(row) %>" 
+                               class="btn <%= action.class %> btn-sm rounded-pill d-inline-flex align-items-center" 
+                               title="<%= action.title %>">
+                                <i class="bi <%= action.icon %>"></i>
+                            </a>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+<% } %>
+
+<% if (pagination && pagination[tab] && pagination[tab].totalPages > 1) { %>
+<div class="d-flex justify-content-center mt-4">
+    <nav aria-label="Navegación de páginas">
+        <ul class="pagination">
+            <% if (pagination[tab].hasPrev) { %>
+                <li class="page-item">
+                    <a class="page-link" href="?tab=<%= tab %>&page=<%= pagination[tab].page - 1 %>&search=<%= search %>" aria-label="Anterior">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            <% } else { %>
+                <li class="page-item disabled">
+                    <span class="page-link" aria-hidden="true">&laquo;</span>
+                </li>
+            <% } %>
+
+            <% for(let i = 1; i <= pagination[tab].totalPages; i++) { %>
+                <li class="page-item <%= i === pagination[tab].page ? 'active' : '' %>">
+                    <a class="page-link" href="?tab=<%= tab %>&page=<%= i %>&search=<%= search %>"><%= i %></a>
+                </li>
+            <% } %>
+
+            <% if (pagination[tab].hasNext) { %>
+                <li class="page-item">
+                    <a class="page-link" href="?tab=<%= tab %>&page=<%= pagination[tab].page + 1 %>&search=<%= search %>" aria-label="Siguiente">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            <% } else { %>
+                <li class="page-item disabled">
+                    <span class="page-link" aria-hidden="true">&raquo;</span>
+                </li>
+            <% } %>
+        </ul>
+    </nav>
+</div>
+<% } %> 

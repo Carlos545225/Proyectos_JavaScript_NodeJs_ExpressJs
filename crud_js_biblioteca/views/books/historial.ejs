@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Libros - El Rincón Verde</title>
+    <link rel="shortcut icon" href="/images/icono.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/stylesheets/stilo_universal.css">
+    <link rel="stylesheet" href="/stylesheets/libros.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-verde-oscuro sidebar-wrapper" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center py-4 fs-4 fw-bold text-white">
+                <i class="bi bi-tree-fill me-2"></i>El Rincón Verde
+            </div>
+            <div class="list-group list-group-flush my-3">
+                <a href="/dashboard" class="list-group-item list-group-item-action">
+                    <i class="bi bi-speedometer2 me-2"></i>Panel Principal
+                </a>
+                <a href="/books" class="list-group-item list-group-item-action active">
+                    <i class="bi bi-journals me-2"></i>Libros
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="bi bi-journal-check me-2"></i>Préstamos
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="bi bi-person-circle me-2"></i>Mi Cuenta
+                </a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content Wrapper -->
+        <div id="page-content-wrapper">
+            <!-- Barra de Navegación Superior -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                            <li class="nav-item"> <a class="nav-link" href="/logout">Salir <i class="bi bi-box-arrow-right"></i></a> </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Contenido Principal -->
+            <div class="container-fluid dashboard-container px-4 py-4">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h1 class="main-title">Historial de Libros</h1>
+                            <a href="/books?tab=libros" class="btn btn-leaf-outline rounded-pill">
+                                <i class="bi bi-arrow-left me-2"></i>Volver
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buscador -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <form action="/books/historial" method="GET" class="d-flex gap-2">
+                            <input type="text" name="search" class="form-control form-control-sm" placeholder="Buscar por título..." value="<%= search %>">
+                            <button type="submit" class="btn btn-sm btn-leaf">
+                                <i class="bi bi-search"></i>
+                            </button>
+                            <% if (search) { %>
+                                <a href="/books/historial" class="btn btn-sm btn-secondary">
+                                    <i class="bi bi-x-lg"></i>
+                                </a>
+                            <% } %>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Tabla de Historial -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover table-bordered small">
+                                <thead class="table-verde-medio text-white">
+                                    <tr>
+                                        <th class="align-middle">ID</th>
+                                        <th class="align-middle">Título</th>
+                                        <th class="align-middle">Autor</th>
+                                        <th class="align-middle">Categoría</th>
+                                        <th class="align-middle">Editorial</th>
+                                        <th class="align-middle">Año</th>
+                                        <th class="align-middle">Ejemplares</th>
+                                        <th class="align-middle">ISBN</th>
+                                        <th class="align-middle">Fecha Desactivación</th>
+                                        <th class="align-middle">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (historial && historial.length > 0) { %>
+                                        <% historial.forEach(function(book) { %>
+                                            <tr>
+                                                <td class="align-middle"><%= book.id %></td>
+                                                <td class="align-middle text-truncate" style="max-width: 200px;" title="<%= book.title %>">
+                                                    <% if (book.title && book.title.length > 15) { %>
+                                                        <%= book.title.substring(0, 15) %>...
+                                                    <% } else { %>
+                                                        <%= book.title %>
+                                                    <% } %>
+                                                </td>
+                                                <td class="align-middle text-truncate" style="max-width: 150px;" title="<%= book.author_name %>">
+                                                    <% if (book.author_name && book.author_name.length > 15) { %>
+                                                        <%= book.author_name.substring(0, 15) %>...
+                                                    <% } else { %>
+                                                        <%= book.author_name %>
+                                                    <% } %>
+                                                </td>
+                                                <td class="align-middle text-truncate" style="max-width: 150px;" title="<%= book.category_name %>">
+                                                    <% if (book.category_name && book.category_name.length > 15) { %>
+                                                        <%= book.category_name.substring(0, 15) %>...
+                                                    <% } else { %>
+                                                        <%= book.category_name %>
+                                                    <% } %>
+                                                </td>
+                                                <td class="align-middle text-truncate" style="max-width: 150px;" title="<%= book.publisher_name %>">
+                                                    <% if (book.publisher_name && book.publisher_name.length > 15) { %>
+                                                        <%= book.publisher_name.substring(0, 15) %>...
+                                                    <% } else { %>
+                                                        <%= book.publisher_name %>
+                                                    <% } %>
+                                                </td>
+                                                <td class="align-middle"><%= book.year %></td>
+                                                <td class="align-middle"><%= book.num_ejemplares %></td>
+                                                <td class="align-middle"><%= book.isbn %></td>
+                                                <td class="align-middle"><%= new Date(book.deactivated_at).toLocaleDateString() %></td>
+                                                <td class="align-middle">
+                                                    <div class="d-flex flex-wrap gap-1">
+                                                        <a href="/books/restore/<%= book.book_id %>" class="btn btn-leaf-outline btn-sm rounded-pill" title="Restaurar">
+                                                            <i class="bi bi-arrow-counterclockwise"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <% }); %>
+                                    <% } else { %>
+                                        <tr>
+                                            <td colspan="10" class="text-center">No hay libros desactivados</td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Paginación -->
+                        <% if (pagination && pagination.totalPages > 1) { %>
+                            <div class="d-flex justify-content-center mt-4">
+                                <nav aria-label="Navegación de páginas">
+                                    <ul class="pagination">
+                                        <% if (pagination.hasPrev) { %>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page=<%= pagination.page - 1 %>&search=<%= search %>" aria-label="Anterior">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                        <% } else { %>
+                                            <li class="page-item disabled">
+                                                <span class="page-link" aria-hidden="true">&laquo;</span>
+                                            </li>
+                                        <% } %>
+
+                                        <% for(let i = 1; i <= pagination.totalPages; i++) { %>
+                                            <li class="page-item <%= i === pagination.page ? 'active' : '' %>">
+                                                <a class="page-link" href="?page=<%= i %>&search=<%= search %>"><%= i %></a>
+                                            </li>
+                                        <% } %>
+
+                                        <% if (pagination.hasNext) { %>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page=<%= pagination.page + 1 %>&search=<%= search %>" aria-label="Siguiente">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        <% } else { %>
+                                            <li class="page-item disabled">
+                                                <span class="page-link" aria-hidden="true">&raquo;</span>
+                                            </li>
+                                        <% } %>
+                                    </ul>
+                                </nav>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/alerta.js"></script>
+</body>
+</html> 

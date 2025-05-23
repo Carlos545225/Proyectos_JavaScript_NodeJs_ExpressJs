@@ -1,0 +1,292 @@
+/* Importación de Fuentes (Opcional) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* Variables de Color inspiradas en la Naturaleza */
+:root {
+    --verde-oscuro: #2F4F2F; /* Verde bosque oscuro */
+    --verde-medio: #558B2F;  /* Verde hoja */
+    --verde-claro: #AED581;  /* Verde lima claro */
+    --ocre: #A0522D;       /* Marrón tierra/ocre */
+    --crema: #FFF8E1;      /* Fondo crema suave */
+    --gris-suave: #f8f9fa; /* Gris muy claro de Bootstrap */
+    --texto-oscuro: #333;
+    --rojo-suave: #E57373; /* Para alertas suaves */
+    --sidebar-width: 260px; /* Ancho del sidebar */
+}
+
+/* Estilos Generales */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--crema);
+    color: var(--texto-oscuro);
+    line-height: 1.6;
+    overflow-x: hidden; /* Prevenir scroll horizontal causado por el wrapper */
+}
+
+/* Estructura Sidebar y Contenido */
+#wrapper {
+    display: flex;
+    align-items: stretch; /* Hace que el sidebar y el contenido tengan la misma altura */
+}
+
+#sidebar-wrapper {
+    min-height: 100vh; /* Sidebar ocupa toda la altura */
+    width: var(--sidebar-width);
+    background-color: var(--verde-oscuro);
+    color: #fff;
+    transition: margin-left 0.25s ease-out;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    display: flex; /* Para organizar heading, list-group y footer */
+    flex-direction: column; /* Apilar verticalmente */
+}
+
+#sidebar-wrapper .sidebar-heading {
+    padding: 1rem 1.25rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+#sidebar-wrapper .sidebar-heading i {
+    color: var(--verde-claro);
+}
+
+#sidebar-wrapper .list-group {
+    flex-grow: 1; /* Hace que el list-group ocupe el espacio disponible */
+    width: 100%;
+}
+
+#sidebar-wrapper .list-group-item {
+    background-color: var(--verde-oscuro);
+    color: #ced4da; /* Color de texto más suave para items no activos */
+    border: none;
+    padding: 0.9rem 1.25rem;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease, color 0.2s ease, border-left-color 0.2s ease;
+    border-left: 5px solid transparent; /* Espacio para el indicador de rama/hoja */
+}
+
+#sidebar-wrapper .list-group-item i {
+    margin-right: 0.75rem;
+    font-size: 1.1rem;
+    vertical-align: middle;
+}
+
+#sidebar-wrapper .list-group-item:hover,
+#sidebar-wrapper .list-group-item:focus {
+    background-color: var(--verde-medio);
+    color: #fff;
+    text-decoration: none;
+    border-left-color: var(--verde-claro); /* Hoja sutil al hacer hover */
+}
+
+#sidebar-wrapper .list-group-item.active {
+    background-color: var(--verde-medio);
+    color: #fff;
+    font-weight: 600;
+    border-left-color: var(--ocre); /* Rama para el item activo */
+}
+#sidebar-wrapper .list-group-item.active i {
+    color: var(--crema);
+}
+
+#sidebar-wrapper .sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(0,0,0,0.1); /* Un poco más oscuro para el footer */
+}
+
+
+#page-content-wrapper {
+    flex: 1; /* Ocupa el resto del ancho */
+    min-width: 0; /* Importante para que el contenido se encoja si es necesario */
+    background-color: var(--crema);
+}
+
+/* Navbar superior dentro del page-content-wrapper */
+#page-content-wrapper .navbar {
+    background-color: #fff !important; /* Fondo blanco para la navbar superior */
+    border-bottom: 1px solid #eee !important;
+}
+.page-title-navbar {
+    color: var(--verde-oscuro);
+    font-weight: 600;
+}
+
+/* Título Principal (si se usa dentro del contenido) */
+.main-title {
+    color: var(--verde-oscuro);
+    font-weight: 600;
+    /* margin-top: 1.5rem; Ya no es necesario si se usa my-4 en el row */
+    border-bottom: 3px solid var(--verde-medio);
+    display: inline-block;
+    padding-bottom: 0.3rem;
+}
+
+/* Tarjetas Personalizadas (mismos estilos que antes) */
+.custom-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    background-color: #fff;
+    overflow: hidden;
+    position: relative;
+}
+
+.custom-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(47, 79, 47, 0.15);
+}
+
+.card-rama::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 8px;
+    background-color: var(--ocre);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.card-hoja::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 8px;
+    background-color: var(--verde-medio);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.icon-circle {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.bg-verde-claro { background-color: var(--verde-claro); }
+.text-verde-oscuro { color: var(--verde-oscuro); }
+.bg-ocre { background-color: var(--ocre); }
+.bg-rojo-suave { background-color: var(--rojo-suave); }
+
+.card-title {
+    margin-bottom: 0.2rem;
+    font-weight: 600;
+    color: var(--verde-oscuro);
+}
+
+.card-text.display-6 {
+    color: var(--texto-oscuro);
+    margin-bottom: 0;
+}
+
+/* Tarjeta de Acciones Rápidas */
+.action-card .card-header { font-weight: 600; border-bottom: none; }
+.bg-verde-medio { background-color: var(--verde-medio) !important; }
+
+.action-card .btn {
+    padding: 0.75rem 1rem; font-size: 1rem;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+}
+.action-card .btn:hover { transform: scale(1.02); }
+
+.btn-leaf { position: relative; overflow: hidden; }
+.btn-leaf::after {
+    content: '\F41A'; font-family: 'bootstrap-icons';
+    position: absolute; right: -10px; bottom: -15px;
+    font-size: 3rem; color: rgba(255, 255, 255, 0.2);
+    transform: rotate(-30deg);
+    transition: right 0.3s ease, bottom 0.3s ease;
+}
+.btn-leaf:hover::after { right: -5px; bottom: -10px; }
+
+/* Tarjeta de Notificaciones */
+.notification-card .card-header { font-weight: 600; border-bottom: none; }
+.notification-card .list-group-item {
+    border-color: rgba(0, 0, 0, 0.05);
+    padding: 0.8rem 1.25rem;
+}
+.notification-card .list-group-item i { font-size: 1.1rem; vertical-align: middle; }
+.notification-card .badge { font-size: 0.75rem; padding: 0.4em 0.6em; }
+
+
+/* Responsividad del Sidebar */
+@media (max-width: 991.98px) { /* Coincide con el breakpoint 'lg' de Bootstrap */
+    #sidebar-wrapper {
+        /* margin-left: calc(-1 * var(--sidebar-width)); Oculta el sidebar fuera de la pantalla */
+        display: none; /* Más simple para un sidebar fijo sin JS */
+    }
+    /* Si el sidebar está oculto, el page-content-wrapper debe ocupar todo el ancho */
+    #page-content-wrapper {
+        width: 100%;
+    }
+
+    /* Si se usara un botón para mostrar/ocultar el sidebar (con JS o checkbox hack):
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: 0;
+    }
+    */
+}
+
+@media (max-width: 768px) {
+    .card-text.display-6 {
+        font-size: 2rem;
+    }
+    .dashboard-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+.nav-tabs-custom {
+    border-bottom: 1px solid #dee2e6; /* Línea base para las pestañas */
+}
+
+.nav-tabs-custom .nav-item {
+    margin-bottom: -1px; /* Compensa el borde inferior del nav-tabs general */
+}
+
+.nav-tabs-custom .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: .5rem; /* Radio para la forma de carpeta */
+    border-top-right-radius: .5rem;
+    color: var(--verde-medio); /* Color de texto para tabs inactivos */
+    background-color: var(--gris-suave); /* Fondo para tabs inactivos */
+    margin-right: 2px; /* Pequeño espacio entre tabs */
+    padding: 0.75rem 1.25rem; /* Ajusta el padding según tu gusto */
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+.nav-tabs-custom .nav-link:hover {
+    border-color: #e9ecef #e9ecef #dee2e6;
+    isolation: isolate; /* Evita problemas de z-index con el hover */
+    background-color: var(--crema); /* Un poco más claro al hacer hover */
+    color: var(--verde-oscuro);
+}
+
+.nav-tabs-custom .nav-link.active {
+    color: var(--verde-oscuro); /* Texto más oscuro para tab activo */
+    background-color: #fff; /* Fondo blanco para fusionarse con el contenido */
+    border-color: #dee2e6 #dee2e6 #fff; /* Borde superior y laterales, sin borde inferior */
+    font-weight: 600;
+}
+
+.nav-tabs-custom .nav-link.active i {
+    color: var(--verde-medio); /* Color del icono en tab activo */
+}
+
+/* Estilo para el encabezado de las tablas dentro de los tabs */
+.table-verde-medio {
+    background-color: var(--verde-medio);
+}
+
+
+/* ... (tus estilos existentes de tarjetas, footer, responsividad, etc.) ... */
+
+/* Asegúrate que el pie de página del contenido principal tenga espacio */
+#page-content-wrapper .footer {
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid #eee;
+}
